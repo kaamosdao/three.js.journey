@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import s from './page.module.scss';
 
 export default function Home() {
