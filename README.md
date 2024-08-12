@@ -1,6 +1,6 @@
-Three.js learning kit
+## Three.js learning kit
 
-## Getting Started
+### Getting Started
 
 First, run the development server:
 
