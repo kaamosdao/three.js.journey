@@ -4,6 +4,7 @@ import { useRef, useEffect, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as dat from 'dat.gui';
 
 import s from './page.module.scss';
 
@@ -37,6 +38,11 @@ export default function Home() {
     };
   }, [sizes]);
 
+  const parameters = useRef({
+    size: 0.1,
+    particlesCount: 1000,
+  });
+
   useEffect(() => {
     const scene = new THREE.Scene();
     cameraRef.current = new THREE.PerspectiveCamera(
@@ -46,40 +52,59 @@ export default function Home() {
       1000
     );
 
-    const geometry = new THREE.BufferGeometry();
-    const count = 1000;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
+    let geometry = null;
+    let material = null;
+    let particles = null;
 
-    for (let index = 0; index < count * 3; index++) {
-      positions[index] = (Math.random() - 0.5) * 10;
-      colors[index] = Math.random();
-    }
+    const generateGalaxy = () => {
+      if (particles !== null) {
+        geometry.dispose();
+        material.dispose();
+        scene.remove(particles);
+      }
+      geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(parameters.current.particlesCount * 3);
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      for (let i = 0; i < parameters.current.particlesCount * 3; i++) {
+        positions[i] = (Math.random() - 0.5) * 10;
+      }
 
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/particles/star-0.jpg');
+      geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
+      );
 
-    const material = new THREE.PointsMaterial({
-      size: 0.3,
-      // color: 0x089df6,
-      alphaMap: texture,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      vertexColors: true,
-    });
-    // material.alphaTest = 0.001;
-    // material.depthTest = false;
-    material.depthWrite = false;
+      material = new THREE.PointsMaterial({
+        size: parameters.current.size,
+        color: 0x089df6,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
 
-    const particles = new THREE.Points(geometry, material);
+      particles = new THREE.Points(geometry, material);
 
-    scene.add(particles);
+      scene.add(particles);
+    };
 
-    cameraRef.current.position.z = 3;
-    cameraRef.current.position.y = 2;
+    const gui = new dat.GUI();
+    gui
+      .add(parameters.current, 'particlesCount')
+      .min(100)
+      .max(100000)
+      .step(100)
+      .onFinishChange(generateGalaxy);
+    gui
+      .add(parameters.current, 'size')
+      .min(0.001)
+      .max(0.1)
+      .step(0.001)
+      .onFinishChange(generateGalaxy);
+
+    generateGalaxy();
+
+    cameraRef.current.position.z = 10;
+    cameraRef.current.position.y = 10;
     cameraRef.current.lookAt(particles.position);
 
     renderRef.current = new THREE.WebGLRenderer({
@@ -88,20 +113,10 @@ export default function Home() {
     renderRef.current.setSize(window.innerWidth, window.innerHeight);
     renderRef.current.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const clock = new THREE.Clock();
     const controls = new OrbitControls(cameraRef.current, canvasRef.current);
     controls.update();
 
     function animate() {
-      // const elapsedTime = clock.getElapsedTime();
-      //
-      // for (let index = 0; index < count; index++) {
-      // const i3 = index * 3;
-      // geometry.attributes.position.array[i3 + 1] = Math.sin(
-      // elapsedTime + geometry.attributes.position.array[i3]
-      // );
-      // }
-      // geometry.attributes.position.needsUpdate = true;
       renderRef.current.render(scene, cameraRef.current);
       controls.update();
     }
