@@ -40,12 +40,12 @@ export default function Home() {
 
   const parameters = useRef({
     size: 0.003,
-    particlesCount: 20000,
-    radius: 2,
+    particlesCount: 30000,
+    radius: 3,
     branches: 3,
     spin: 3,
-    randomness: 1,
-    randomnessPower: 6,
+    randomness: 0.3,
+    randomnessPower: 4,
     innerColor: '#e170d2',
     outerColor: '#089df6',
   });
@@ -80,7 +80,10 @@ export default function Home() {
 
       for (let i = 0; i < parameters.current.particlesCount * 3; i++) {
         const i3 = i * 3;
-        const radius = Math.random() * parameters.current.radius;
+        // const radius =  Math.random() * parameters.current.radius;
+        const radius =
+          (Math.pow(Math.random(), parameters.current.randomnessPower) / 2) *
+          parameters.current.radius;
         const angle =
           ((i % parameters.current.branches) / parameters.current.branches) *
           2 *
@@ -176,7 +179,7 @@ export default function Home() {
       .onFinishChange(generateGalaxy);
     gui
       .add(parameters.current, 'randomness')
-      .min(0)
+      .min(0.1)
       .max(2)
       .step(0.001)
       .onFinishChange(generateGalaxy);
