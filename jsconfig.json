@@ -6,7 +6,8 @@
       "components/*": ["src/components/*"],
       "public/*": ["public/*"],
       "mages/*": ["public/images/*"],
-      "hooks/*": ["src/hooks/*"]
+      "hooks/*": ["src/hooks/*"],
+      "shaders/*": ["src/shaders/*"]
     }
   }
 }

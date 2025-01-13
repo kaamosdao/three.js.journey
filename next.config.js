@@ -7,6 +7,14 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@use "styles/_helpers.scss" as *;`,
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.glsl$/,
+      type: 'asset/source',
+    });
+
+    return config;
+  },
 };
 
 module.exports = (_phase, { defaultConfig: _ }) => {
