@@ -54,12 +54,24 @@ void main() {
   // float strength = step(0.2, max(abs(vUv.x  - 0.5), abs(vUv.y - 0.5)));
 
     // pattern 20
-  float strength1 = step(0.2, max(abs(vUv.x  - 0.5), abs(vUv.y  - 0.5)));
+  // float strength1 = step(0.2, max(abs(vUv.x  - 0.5), abs(vUv.y  - 0.5)));
 
-  float strength2 =  1.0 - step(0.4, max(abs(vUv.x  - 0.5), abs(vUv.y  - 0.5)));
+  // float strength2 =  1.0 - step(0.4, max(abs(vUv.x  - 0.5), abs(vUv.y  - 0.5)));
 
-  float strength = strength1 - strength2;
-  // float strength = strength1 * strength2;
+  // float strength = strength1 - strength2;
+  // // float strength = strength1 * strength2;
+
+  // pattern 21
+  // float strength = floor(vUv.x * 10.) / 10.;
+
+  // pattern 22
+  // float strength = floor(vUv.x * 10.) / 10.;
+  // strength *= floor(vUv.y * 10.) / 10.;
+
+  // pattern 23
+  float strength = floor(vUv.x * 10.) / 10.;
+  strength *= floor(vUv.y * 10.) / 10.;
+ 
 
   gl_FragColor = vec4(strength, strength, strength, 1.0);
 }
