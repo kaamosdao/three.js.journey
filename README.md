@@ -1,4 +1,6 @@
-## Three.js learning kit
+## Three.js learning
+
+Just doing here three.js, glsl, shaders lessons.
 
 ### Getting Started
 
