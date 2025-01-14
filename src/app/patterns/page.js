@@ -55,6 +55,9 @@ export default function Home() {
       vertexShader: testVertexShader,
       fragmentShader: testFragmentShader,
       side: THREE.DoubleSide,
+      uniforms: {
+        uTime: { value: 0 },
+      },
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -73,8 +76,13 @@ export default function Home() {
     const controls = new OrbitControls(cameraRef.current, canvasRef.current);
     controls.update();
 
+    const clock = new THREE.Clock();
+
     function animate() {
+      const delta = clock.getElapsedTime();
+
       renderRef.current.render(scene, cameraRef.current);
+      material.uniforms.uTime.value = delta;
       controls.update();
     }
 
