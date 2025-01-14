@@ -178,13 +178,55 @@ void main() {
   // float strength = 1. - step(0.01, abs(distance(waveUv, center) - 0.25));
 
  // pattern 39
-  vec2 center = vec2(0.5);
-  vec2 waveUv = vec2(
-    vUv.x + sin(vUv.y * 100.) * 0.1, 
-    vUv.y + sin(vUv.x * 100.) * 0.1
-  );
+  // vec2 center = vec2(0.5);
+  // vec2 waveUv = vec2(
+  //   vUv.x + sin(vUv.y * 100.) * 0.1, 
+  //   vUv.y + sin(vUv.x * 100.) * 0.1
+  // );
 
-  float strength = 1. - step(0.01, abs(distance(waveUv, center) - 0.25));
+  // float strength = 1. - step(0.01, abs(distance(waveUv, center) - 0.25));
+
+  // pattern 40
+  // float strength = atan(vUv.x / vUv.y);
+
+  // pattern 41
+  // float strength = atan(vUv.x - 0.5, vUv.y - 0.5);
+
+  // pattern 42
+  // float angle = atan(vUv.x - 0.5, vUv.y - 0.5);
+  // angle /= PI * 2.;
+  // angle += 0.5;
+
+  // float strength = angle;
+  
+  // or
+  // float strength = 1. - abs(atan(vUv.x - 0.5, vUv.y - 0.5) / PI / 2. - 0.5);
+
+  // pattern 43
+  // float angle = atan(vUv.x - 0.5, vUv.y - 0.5);
+  // angle /= PI * 2.;
+  // angle += 0.5;
+  // angle *= 20.;
+
+  // float strength = mod(angle, 1.0);
+
+  // pattern 44
+  // float angle = atan(vUv.x - 0.5, vUv.y - 0.5);
+  // angle /= PI * 2.;
+  // angle += 0.5;
+
+  // float strength = sin(angle *  100.);
+
+ // pattern 45
+  vec2 center = vec2(0.5);
+
+  float angle = atan(vUv.x - 0.5, vUv.y - 0.5);
+  angle /= PI * 2.;
+  angle += 0.5;
+  float sinus = sin(angle *  100.);
+
+  float radius = 0.25 + sinus * 0.02;
+  float strength = 1. - step(0.01, abs(distance(vUv, center) - radius));
 
   gl_FragColor = vec4(strength, strength, strength, 1.0);
 }
