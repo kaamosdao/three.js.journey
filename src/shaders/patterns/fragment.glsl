@@ -159,11 +159,11 @@ void main() {
   // float strength = length(vUv);
 
   // pattern 27
-  // vec2 center = vec2(0.5);
+  vec2 center = vec2(0.5);
   // // float strength = length(vUv - center);
 
   // // or
-  // float strength = distance(vUv, center);
+  float strength = distance(vUv, center);
 
   // pattern 28
   // vec2 center = vec2(0.5);
@@ -291,17 +291,18 @@ void main() {
 
   // pattern 50
   // float strength = step(0.95, 1. - abs(cnoise(vUv * 10.)));
-  float strength = step(0.9, sin(cnoise(vUv * 10.) * 20. + uTime * 2.));
+  // float strength = step(0.9, sin(cnoise(vUv * 10.) * 20. + uTime * 2.));
 
-  // clamp the strength
-  strength = clamp(strength, 0.0, 1.0);
+  // // clamp the strength
+  // strength = clamp(strength, 0.0, 1.0);
 
-  // colored
-  vec3 blackColor = vec3(0.0);
-  vec3 uvColor = vec3(vUv, 1.0);
-  vec3 mixedColor = mix(blackColor, uvColor, strength);
-  gl_FragColor = vec4(mixedColor, 1.0);
+  // output
+  // colored gl_FragColor
+  // vec3 blackColor = vec3(0.0);
+  // vec3 uvColor = vec3(vUv, 1.0);
+  // vec3 mixedColor = mix(blackColor, uvColor, strength);
+  // gl_FragColor = vec4(mixedColor, 1.0);
 
-  // black and white
-  // gl_FragColor = vec4(strength, strength, strength, 1.0);
+  // black and white gl_FragColor
+  gl_FragColor = vec4(strength, strength, strength, 1.0);
 }
